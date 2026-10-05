@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شكر وتقدير | يوم المعلم</title>
+    <!-- مكتبة التأثيرات الاحتفالية (Confetti) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            color: #38bdf8;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        p.subtitle {
+            color: #94a3b8;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #38bdf8;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* نافذة الرسالة المخصصة */
+        .result-box {
+            display: none;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .teacher-name {
+            color: #facc15;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .appreciation-text {
+            line-height: 1.8;
+            color: #e2e8f0;
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 10px;
+            border-right: 4px solid #38bdf8;
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 1px solid #475569;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- نموذج الإدخال -->
+        <div id="formContainer">
+            <h1>🌸 منصة تكريم يوم المعلم</h1>
+            <p class="subtitle">أدخلي اسمكِ الموقر لاستلام بطاقة التهنئة الخاصة بكِ</p>
+            
+            <div class="input-group">
+                <input type="text" id="teacherNameInput" placeholder="أدخلي اسمكِ هنا (مثال: أ. مريم)..." autocomplete="off">
+            </div>
+            
+            <button onclick="generateGreeting()">عرض بطاقة الشكر ✨</button>
+        </div>
+
+        <!-- بطاقة الشكر المخصصة -->
+        <div id="resultBox" class="result-box">
+            <h1>🎓 شكراً لصانعة الأجيال</h1>
+            <div class="teacher-name" id="displayName"></div>
+            
+            <div class="appreciation-text">
+                "بمناسبة يوم المعلم، نتقدم لكِ بأسمى عبارات الشكر والامتنان لقاء جهودكِ المعطاءة ونوركِ الذي ينير طريق علمنا ومستقبلنا. دُمتِ رمزاً للإلهام والعطاء."
+            </div>
+
+            <button class="reset-btn" onclick="resetForm()">إدخال اسم آخر 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        function generateGreeting() {
+            const nameInput = document.getElementById('teacherNameInput').value.trim();
+            
+            if (nameInput === "") {
+                alert("يرجى كتابة الاسم أولاً!");
+                return;
+            }
+
+            // إخفاء النموذج وإظهار البطاقة
+            document.getElementById('formContainer').style.display = 'none';
+            const resultBox = document.getElementById('resultBox');
+            resultBox.style.display = 'block';
+
+            // عرض الاسم المخصص
+            document.getElementById('displayName').innerText = nameInput;
+
+            // إطلاق قصاصات الورق الملونة (Confetti)
+            confetti({
+                particleCount: 120,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('teacherNameInput').value = '';
+            document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('resultBox').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
